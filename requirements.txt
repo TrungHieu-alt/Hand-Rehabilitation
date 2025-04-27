@@ -1,0 +1,9 @@
+# ── Core runtime ─────────────────────────
+fastapi>=0.110
+uvicorn[standard]>=0.29       # ASGI server
+mediapipe>=0.10.9             # hand-tracking & gesture model
+opencv-python>=4.10.0.0       # webcam frames
+numpy>=1.26
+
+# ── (Optional) IDE colouring & hot-reload ─
+python-dotenv                 # load local .env
