@@ -1,0 +1,76 @@
+:root{
+  --accent:#FF7F00;
+  --accent-dark:#dd2476;
+  --bg:#5E5E5E;
+  --text:#222;
+  --font:'Poppins',Arial,sans-serif;
+}
+
+/* RESET + base */
+*{margin:0;padding:0;box-sizing:border-box;font-family:var(--font)}
+body{background:var(--bg);min-height:100vh;color:var(--text);display:flex;flex-direction:column;align-items:center}
+
+/* logo */
+#logo{margin-top:3.5rem;text-align:center}
+#logo h1{font-size:52px;letter-spacing:2px;color:var(--accent)}
+#tagline{margin-top:.3rem;font-size:18px;opacity:.8}
+
+/* info box */
+#info{position:absolute;left:12px;bottom:12px;font-size:14px;white-space:pre;color:#444}
+
+/* canvas (tay 3-D) */
+canvas.hand{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);
+            width:380px;height:380px;pointer-events:none}
+
+/* ---------- menu (trang chủ) ---------- */
+#menu{position:relative;margin-top:6rem;width:600px;height:250px}
+.btn{
+  --sz:130px;width:var(--sz);height:var(--sz);border-radius:50%;
+  background:linear-gradient(145deg,var(--accent),var(--accent-dark));
+  color:#fff;font-weight:600;font-size:20px;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:.25s;
+  box-shadow:0 10px 18px rgba(0,0,0,.18);
+}
+.btn:hover{transform:translateY(-8px);box-shadow:0 18px 30px rgba(0,0,0,.25)}
+#btn1{position:absolute;left:0;top:38%}
+#btn2{position:absolute;left:18%;top:0}
+#btn3{position:absolute;left:38%;top:28%} /* central */
+#btn4{position:absolute;left:58%;top:0}
+#btn5{position:absolute;right:0;top:38%}
+
+/* ---------- exercise page ---------- */
+#exercise-box{margin-top:5rem;text-align:center}
+#exercise-box h2{font-size:32px;color:var(--accent);margin-bottom:1rem}
+#phase{font-size:24px;font-weight:600;margin-top:1rem}
+#back{position:absolute;left:20px;top:20px;background:var(--accent);
+      padding:.5rem 1.2rem;border-radius:6px;color:#fff;text-decoration:none;
+      cursor:pointer;transition:filter .2s}
+#back:hover{filter:brightness(1.1)}
+
+/* hover hiệu ứng “tay chạm nút” */
+.hover{outline:4px solid #ffd54f!important;box-shadow:0 0 18px #ffd54f!important}
+/* --- vòng tròn tiến trình hand dwell --- */
+#dwell{
+  position:fixed; width:48px;height:48px;pointer-events:none;
+  transform:translate(-50%,-50%); border-radius:50%;
+  background:
+    conic-gradient(var(--yellow) 0deg 0deg, var(--black) 0deg 360deg);
+  /* lớp giữa = lỗ rỗng để thấy nội dung bên dưới */
+  -webkit-mask:
+    radial-gradient(circle 62.5% at 50% 50%, transparent 60%, #000 61%);
+          mask:
+    radial-gradient(circle 62.5% at 50% 50%, transparent 60%, #000 61%);
+  display:none;
+}
+:root{
+  --accent:#00bfa6;        /* mint */
+  --yellow:#ffd54f;        /* tô “progress” */
+  --black:#202124;         /* vành nền */
+}
+
+/* === con trỏ TIP ngón trỏ (chỉ trang chủ dùng) === */
+#cursor{
+  position:fixed; width:18px;height:18px;border-radius:50%;
+  background:var(--accent); box-shadow:0 0 8px var(--accent-dark);
+  transform:translate(-50%,-50%); pointer-events:none; display:none;
+}
