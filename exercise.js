@@ -28,16 +28,25 @@ function initThree(){
 }
 function animate(){ requestAnimationFrame(animate); renderer.render(scene,camera);}
 
-/* vẽ khung xương tay */
+/* vẽ khung xương tay – lật X để khớp gương */
 function updateHand(lm){
   if(!lm?.length) return;
-  let k=0,a=attr.array;
-  for(const [i,j] of EDGES){
-    const p=lm[i], q=lm[j];
-    a[k++]=p.x-.5; a[k++]=-(p.y-.5); a[k++]=-p.z;
-    a[k++]=q.x-.5; a[k++]=-(q.y-.5); a[k++]=-q.z;
+  let k = 0, a = attr.array;
+
+  for (const [i, j] of EDGES){
+    const p = lm[i], q = lm[j];
+
+    /* điểm p */
+    a[k++] = 0.5 - p.x;          //  ← X lật
+    a[k++] = -(p.y - 0.5);       //    Y giữ như cũ
+    a[k++] = -p.z;
+
+    /* điểm q */
+    a[k++] = 0.5 - q.x;          //  ← X lật
+    a[k++] = -(q.y - 0.5);
+    a[k++] = -q.z;
   }
-  attr.needsUpdate=true;
+  attr.needsUpdate = true;
 }
 
 /* hộp debug */

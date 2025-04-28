@@ -18,7 +18,7 @@ ws.onmessage = e=>{
 function updateCursor(p){
   if(!p.landmarks?.length){ cursor.style.display="none"; return; }
   const t = p.landmarks[0];
-  cursor.style.left = t.x*innerWidth+"px";
+  cursor.style.left = (1 - t.x)*innerWidth+"px"; 
   cursor.style.top  = t.y*innerHeight+"px";
   cursor.style.display = "block";
 }

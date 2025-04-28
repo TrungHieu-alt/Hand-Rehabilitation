@@ -15,7 +15,7 @@ export function setupHandUI(selector, dwellMs = 1000){
   
       /* 1. Tọa độ TIP ngón trỏ */
       const tip = packet.landmarks[0];
-      const x = tip.x * innerWidth;
+      const x = (1-tip.x) * innerWidth;
       const y = tip.y * innerHeight;
   
       /* 2. Element dưới tay */
