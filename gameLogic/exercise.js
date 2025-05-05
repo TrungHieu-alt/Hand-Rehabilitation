@@ -1,4 +1,4 @@
-import {setupHandUI} from "./common-ui.js";
+import {setupHandUI} from "../common-ui.js";
 
 /* -------------- cấu hình -------------- */
 const WS_URL="ws://localhost:8000/ws";
