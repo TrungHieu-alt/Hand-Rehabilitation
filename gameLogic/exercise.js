@@ -57,36 +57,81 @@ function updateInfo(p){
 Conf    : ${p.gestureConfidence.toFixed(2)}`;
 }
 
-
 /* ---------- logic bài tập ---------- */
-let phase="A", fist=0, next=1, prev="";
+let phase="A", fist=0, next=1, prev="", touchFinger=0, touchStart=0;
+const TOUCH_THRESHOLD = 0.05; // ngưỡng khoảng cách để coi là chạm
+const HOLD_TIME = 2000; // 2 giây
+
+// Biến theo dõi Thumb_Down
+let thumbDownStart = 0;
+const THUMB_DOWN_TIMEOUT = 2000; // 2 giây
+
+function distance(lm1, lm2){
+  return Math.sqrt((lm1.x - lm2.x)**2 + (lm1.y - lm2.y)**2 + (lm1.z - lm2.z)**2);
+}
 
 function updateExercise(p){
-   if(phase==="A"){
-     if(p.gesture==="Closed_Fist" && prev!=="Closed_Fist"){
-       fist++;
-       document.getElementById("phase").textContent =
-         `Pha A – Nắm tay: ${fist}/5`;
-       if(fist>=5){
-         phase="B";
-         document.getElementById("phase").textContent =
-           "Pha B – Đếm ngón: 1";
-       }
-     }
-     prev=p.gesture;
-   }else if(phase==="B"){
-     if(p.fingerCount===next){
-       next++;
-       if(next>5){
-         phase="Done";
-         document.getElementById("phase").textContent="🎉 Hoàn thành!";
-       }else{
-         document.getElementById("phase").textContent =
-           `Pha B – Đếm ngón: ${next}`;
-       }
-     }
-   }
- }
+  // Kiểm tra Thumb_Down
+  if(p.gesture === "Thumb_Down"){
+    if(thumbDownStart === 0){
+      thumbDownStart = Date.now();
+    }else if(Date.now() - thumbDownStart >= THUMB_DOWN_TIMEOUT){
+      window.location.href = "../index.html";
+    }
+  }else{
+    thumbDownStart = 0;
+  }
+
+  if(phase==="A"){
+    if(p.gesture==="Closed_Fist" && prev!=="Closed_Fist"){
+      fist++;
+      document.getElementById("phase").textContent =
+        `Pha A – Nắm tay: ${fist}/5`;
+      if(fist>=5){
+        phase="B";
+        document.getElementById("phase").textContent =
+          "Pha B – Đếm ngón: 1";
+      }
+    }
+    prev=p.gesture;
+  }else if(phase==="B"){
+    if(p.fingerCount===next){
+      next++;
+      if(next>5){
+        phase="C";
+        touchFinger=0;
+        document.getElementById("phase").textContent=
+          "Pha C – Chạm ngón cái với ngón trỏ";
+      }else{
+        document.getElementById("phase").textContent =
+          `Pha B – Đếm ngón: ${next}`;
+      }
+    }
+  }else if(phase==="C"){
+    const thumbTip = p.landmarks[4];
+    const targetTips = [8,12,16,20]; // ngón trỏ, giữa, áp út, út
+    const currentTarget = targetTips[touchFinger];
+
+    if(distance(thumbTip, p.landmarks[currentTarget]) < TOUCH_THRESHOLD){
+      if(touchStart===0){
+        touchStart = Date.now();
+      }else if(Date.now() - touchStart >= HOLD_TIME){
+        touchFinger++;
+        touchStart = 0;
+        if(touchFinger >= 4){
+          phase="Done";
+          document.getElementById("phase").textContent="🎉 Hoàn thành!";
+        }else{
+          const nextFinger = ["ngón trỏ","ngón giữa","ngón áp út","ngón út"][touchFinger];
+          document.getElementById("phase").textContent=
+            `Pha C – Chạm ngón cái với ${nextFinger}`;
+        }
+      }
+    }else{
+      touchStart = 0;
+    }
+  }
+}
 
 /* ---------- WebSocket ---------- */
 const ws=new WebSocket(WS_URL);

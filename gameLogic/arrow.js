@@ -29,6 +29,8 @@ let arrow      = null;           // {x,y,vx,vy}
 let arrowsLeft = MAX_ARROW;
 let score      = 0;
 let targets    = JSON.parse(JSON.stringify(BASE_TARGETS));
+let thumbDownStart = 0;
+const THUMB_DOWN_TIMEOUT = 2000;
 
 /* ===== helpers ===== */
 const palmCenter = lm =>
@@ -48,6 +50,16 @@ function resetGame(){
 /* ===== WebSocket điều khiển ===== */
 new WebSocket(WS_URL).onmessage = e=>{
   const pkt = JSON.parse(e.data);
+  if (pkt.gesture === "Thumb_Down") {
+    if (thumbDownStart === 0) {
+      thumbDownStart = Date.now();
+    } else if (Date.now() - thumbDownStart >= THUMB_DOWN_TIMEOUT) {
+      window.location.href = "../index.html";
+    }
+  } else {
+    thumbDownStart = 0;
+  }
+  
   const pc  = palmCenter(pkt.landmarks);
   if(!pc) return;
 

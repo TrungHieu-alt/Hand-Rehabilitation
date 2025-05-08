@@ -40,6 +40,10 @@
   function resetCalib(){ calib = {minX:1,maxX:0,minY:1,maxY:0}; }
   addEventListener('keydown', e=>{ if(e.key==='c') resetCalib(); });
 
+  
+  let thumbDownStart = 0;
+  const THUMB_DOWN_TIMEOUT = 2000;
+  
   /* ---------- game state ---------- */
   const rounds=[{zone:{x:.70,y:.45,w:.20,h:.30},objects:3},{zone:{x:.10,y:.10,w:.20,h:.25},objects:4},{zone:{x:.40,y:.60,w:.15,h:.20},objects:5}];
   let level=0; const items=[]; const pointer={x:innerWidth/2,y:innerHeight/2,grab:false};
@@ -58,9 +62,17 @@
     const ws=new WebSocket('ws://localhost:8000/ws');
     ws.onmessage=ev=>{
       const d=JSON.parse(ev.data);
+      if (d.gesture === "Thumb_Down") {
+        if (thumbDownStart === 0) {
+          thumbDownStart = Date.now();
+        } else if (Date.now() - thumbDownStart >= THUMB_DOWN_TIMEOUT) {
+          window.location.href = "../index.html";
+        }
+      } else {
+        thumbDownStart = 0;
+      }      
       const pc=palmCenter(d.landmarks);
       if(!pc) return;
-
       // update calibration bounds
       calib.minX=Math.min(calib.minX,pc.x);
       calib.maxX=Math.max(calib.maxX,pc.x);

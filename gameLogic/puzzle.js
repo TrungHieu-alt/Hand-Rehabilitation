@@ -35,9 +35,25 @@ let bestTime = loadBest(); bestEl.textContent = `Best Time ${bestTime === Infini
 const palmCenter = lm => lm && lm.length >= 18
   ? { x: (lm[0].x + lm[5].x + lm[17].x) / 3, y: (lm[0].y + lm[5].y + lm[17].y) / 3 } : null;
 
+
+  let thumbDownStart = 0;
+  const THUMB_DOWN_TIMEOUT = 2000;
+  
 /* ---------- WebSocket ---------- */
 new WebSocket(WS_URL).onmessage = e => {
   const d = JSON.parse(e.data);
+
+  if (d.gesture === "Thumb_Down") {
+    if (thumbDownStart === 0) {
+      thumbDownStart = Date.now();
+    } else if (Date.now() - thumbDownStart >= THUMB_DOWN_TIMEOUT) {
+      window.location.href = "../index.html";
+    }
+  } else {
+    thumbDownStart = 0;
+  }
+  
+
   /* 1. When Game Over & see Closed_Fist → reset */
   if (gameOver && d.gesture === "Closed_Fist") {
     resetGame();
