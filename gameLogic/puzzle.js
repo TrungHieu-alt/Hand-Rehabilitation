@@ -1,4 +1,4 @@
-/* Puzzle Drag & Drop – drag numbered pieces to a 4x3 grid using hand movements */
+/* Puzzle Drag & Drop – drag image pieces to a 4x3 grid using hand movements */
 const WS_URL = "ws://localhost:8000/ws";
 const cvs = document.getElementById("game");
 const ctx = cvs.getContext("2d");
@@ -8,11 +8,22 @@ const timeEl = document.getElementById("time");
 const bestEl = document.getElementById("best");
 
 /* ---------- puzzle state ---------- */
-const GRID_ROWS = 4, GRID_COLS = 3;
-const PIECE_SIZE = 100, GRID_X = (cvs.width - GRID_COLS * PIECE_SIZE) / 2, GRID_Y = 100;
+const GRID_ROWS = 3; // 3 rows for 4:3 ratio
+const GRID_COLS = 4; // 4 columns for 4:3 ratio
+const PIECE_SIZE = 100;
+const GRID_X = (cvs.width - GRID_COLS * PIECE_SIZE) / 2; // 120, centered horizontally
+const GRID_Y = (cvs.height - GRID_ROWS * PIECE_SIZE) / 2; // 90, centered vertically
+const MARGIN = 50;
 const pieces = [];
 let selectedPiece = null, gameOver = false, startTime = null, elapsedTime = 0;
 let handX = cvs.width / 2, handY = cvs.height / 2;
+
+// Load the large image
+const largeImage = new Image();
+largeImage.src = "../img/img1.jpg"; // Replace with your image path
+largeImage.onload = () => {
+  initPuzzle();
+};
 
 /* ---------- BEST TIME helpers ---------- */
 const BT_KEY = "puzzleGameBestTime";
@@ -48,20 +59,30 @@ new WebSocket(WS_URL).onmessage = e => {
 /* ---------- puzzle setup ---------- */
 function initPuzzle() {
   pieces.length = 0;
-  const numbers = Array.from({ length: 12 }, (_, i) => i + 1);
-  numbers.sort(() => Math.random() - 0.5); // shuffle
-  for (let i = 0; i < GRID_ROWS * GRID_COLS; i++) {
-    const row = Math.floor(i / GRID_COLS), col = i % GRID_COLS;
-    pieces.push({
-      id: i + 1,
-      number: numbers[i],
-      homeX: GRID_X + col * PIECE_SIZE,
-      homeY: GRID_Y + row * PIECE_SIZE,
-      x: 20 + Math.random() * (cvs.width - 40),
-      y: GRID_Y + GRID_ROWS * PIECE_SIZE + 20 + Math.random() * 100,
-      locked: false
-    });
+  const pieceWidth = largeImage.width / GRID_COLS;
+  const pieceHeight = largeImage.height / GRID_ROWS;
+  for (let row = 0; row < GRID_ROWS; row++) {
+    for (let col = 0; col < GRID_COLS; col++) {
+      const sx = col * pieceWidth;
+      const sy = row * pieceHeight;
+      const canvas = document.createElement('canvas');
+      canvas.width = PIECE_SIZE;
+      canvas.height = PIECE_SIZE;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(largeImage, sx, sy, pieceWidth, pieceHeight, 0, 0, PIECE_SIZE, PIECE_SIZE);
+      pieces.push({
+        id: row * GRID_COLS + col + 1,
+        image: canvas,
+        homeX: GRID_X + col * PIECE_SIZE,
+        homeY: GRID_Y + row * PIECE_SIZE,
+        x: MARGIN + Math.random() * (cvs.width - PIECE_SIZE - 2 * MARGIN),
+        y: MARGIN + Math.random() * (cvs.height - PIECE_SIZE - 2 * MARGIN),
+        locked: false
+      });
+    }
   }
+  // Shuffle pieces
+  pieces.sort(() => Math.random() - 0.5);
 }
 
 /* ---------- select and drop ---------- */
@@ -116,10 +137,11 @@ function draw() {
   }
   /* pieces */
   pieces.forEach(p => {
-    ctx.fillStyle = p.locked ? "#4af" : "#fff";
-    ctx.fillRect(p.x, p.y, PIECE_SIZE, PIECE_SIZE);
-    ctx.fillStyle = "#000"; ctx.font = "bold 24px Poppins"; ctx.textAlign = "center";
-    ctx.fillText(p.number, p.x + PIECE_SIZE / 2, p.y + PIECE_SIZE / 2 + 8);
+    ctx.drawImage(p.image, p.x, p.y);
+    if (p.locked) {
+      ctx.strokeStyle = "#4af"; ctx.lineWidth = 4;
+      ctx.strokeRect(p.x, p.y, PIECE_SIZE, PIECE_SIZE);
+    }
   });
   /* hand cursor */
   const cursorColor = selectedPiece ? '#f55' : '#09f'; // Red when grabbing, blue when not
@@ -154,7 +176,6 @@ function resetGame() {
 }
 
 /* ---------- main raf loop ---------- */
-initPuzzle();
 let prev = performance.now();
 (function loop(now) {
   const dt = now - prev; prev = now;
