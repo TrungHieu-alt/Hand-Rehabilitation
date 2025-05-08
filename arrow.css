@@ -1,9 +1,0 @@
-/* bố cục chung */
-body{margin:0;background:#4a3232;font-family:Poppins,sans-serif;overflow:hidden}
-#back{position:absolute;left:16px;top:12px;color:#fff;font-weight:600;text-decoration:none}
-#game{display:block;margin:0 auto;background:#332222;border:3px solid #000}
-
-/* HUD */
-#hud{position:absolute;right:16px;top:12px;color:#fff;font-weight:600;text-align:right;line-height:1.4}
-#arrowBox{position:absolute;bottom:16px;right:16px;background:#222;padding:6px 16px;border-radius:18px;
-          font-weight:700;color:#ff7070;border:3px solid #000}

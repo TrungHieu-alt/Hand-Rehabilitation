@@ -1,13 +1,18 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="m-0 h-full overflow-hidden bg-black">
 <head>
   <meta charset="utf-8">
-  <title>Grasp‑n‑Drop</title>
-  <link rel="stylesheet" href="../grasp.css">
+  <title>Grasp-n-Drop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .status-text-shadow {
+      text-shadow: 0 0 4px #000;
+    }
+  </style>
 </head>
-<body>
-  <canvas id="game"></canvas>
-  <div id="status" class="status">OPEN</div>
+<body class="m-0 h-full overflow-hidden bg-black">
+  <canvas id="game" class="block w-full h-full"></canvas>
+  <div id="status" class="fixed top-2.5 left-2.5 font-bold text-xl leading-none font-sans text-white status-text-shadow pointer-events-none select-none">OPEN</div>
 
   <script src="../gameLogic/grasp.js"></script>
 </body>
