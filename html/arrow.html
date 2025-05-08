@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="m-0 bg-[#4a3232] font-[Poppins,sans-serif] overflow-hidden">
 <head>
   <meta charset="utf-8" />
   <title>Virtual Archery</title>
-  <link rel="stylesheet" href="../arrow.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
-<body>
-  <a id="back" href="../index.html">← Back</a>
+<body class="m-0 bg-[#4a3232] font-[Poppins,sans-serif] overflow-hidden">
+  <a id="back" href="../index.html" class="absolute left-4 top-3 text-white font-semibold no-underline">← Back</a>
 
   <!-- khu vực game -->
-  <canvas id="game" width="640" height="480"></canvas>
+  <canvas id="game" width="640" height="480" class="block mx-auto bg-[#332222] border-3 border-black"></canvas>
 
   <!-- HUD -->
-  <div id="hud">
+  <div id="hud" class="absolute right-4 top-3 text-white font-semibold text-right leading-snug">
     <div id="msg">Open palm ⇒ Closed fist ⇒ Open palm để bắn</div>
     <div id="score">Score 0</div>
-    <div id="arrowBox">▶ 5</div>
+    <div id="arrowBox" class="absolute bottom-4 right-4 bg-[#222222] py-1.5 px-4 rounded-[18px] font-bold text-[#ff7070] border-3 border-black">▶ 5</div>
   </div>
 
   <script type="module" src="../gameLogic/arrow.js"></script>
