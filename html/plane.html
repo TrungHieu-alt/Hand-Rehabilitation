@@ -5,10 +5,12 @@
   <title>Plane vs Meteors</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
-    body{margin:0;background:#000;font-family:Poppins,sans-serif}
-    #back{position:absolute;left:12px;top:10px;color:#fff;font-weight:600;text-decoration:none}
-    #game{display:block;margin:0 auto;border:2px solid #555;background:#000}
-    #scoreboard{position:absolute;top:12px;right:12px;color:#fff;font-weight:600;text-align:right;line-height:1.4}
+    body { margin:0; background:#000; font-family:Poppins,sans-serif; }
+    #back { position:absolute; left:12px; top:10px; color:#fff; font-weight:600; text-decoration:none; }
+    #game { display:block; margin:0 auto; border:2px solid #555; background:#000; }
+    #scoreboard { position:absolute; top:12px; right:12px; color:#fff; font-weight:600; text-align:right; line-height:1.4; }
+    #instructions { margin-top:8px; }
+    #toggleInput { margin-top:8px; background:#222; color:#ff7070; padding:6px 12px; border-radius:18px; font-weight:bold; border:2px solid #000; }
   </style>
 </head>
 <body>
@@ -20,7 +22,9 @@
   <!-- overlay -->
   <div id="scoreboard">
     <div id="score">Score 0</div>
-    <div id="high">High Score 0</div>
+    <div id="high">High 0</div>
+    <div id="instructions">Move mouse to aim, click to restart</div>
+    <button id="toggleInput">Switch to Hand Gesture</button>
   </div>
 
   <script type="module" src="../gameLogic/plane.js"></script>

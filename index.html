@@ -3,27 +3,65 @@
 <head>
   <meta charset="utf-8">
   <title>Hand – Hand Demo</title>
-  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div id="logo">
-    <h1>HVLAB</h1>
-    <div id="tagline">Rehabilitate your hand</div>
+<body class="m-0 bg-gray-100 font-[Poppins,sans-serif] overflow-x-hidden">
+  <!-- Phần tiêu đề -->
+  <div class="text-center py-12 bg-white">
+    <h1 class="text-5xl font-bold text-blue-800">Hand Rehabilitation</h1>
+    <p class="text-xl text-gray-600 mt-2">Phục hồi chức năng tay của bạn</p>
   </div>
 
-  <div id="menu">
-    <a id="btn1" class="btn" href="/html/grasp.html">Grasp</a>
-    <a id="btn2" class="btn" href="/html/puzzle.html">puzzle</a>
-    <!-- nút dẫn sang trang bài tập -->
-    <a id="btn3" class="btn" href="/html/exercise.html">Exercise</a>
-    <!-- nút mới: chuyển sang mini‑game máy bay -->
-    <a id="btn4" class="btn" href="/html/plane.html">Plane</a>
-    <a id="btn5" class="btn" href="/html/arrow.html" >Archery</a>
+  <!-- Menu dạng lưới thẻ -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Thẻ Grasp -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
+        <img src="../asset/img/grasp-icon.png" alt="Grasp" class="mx-auto mb-4 h-16 w-16">
+        <h2 class="text-2xl font-semibold text-blue-700">Grasp</h2>
+        <p class="text-gray-600 mt-2">Luyện tập nắm bắt vật thể</p>
+        <a href="/html/grasp.html" class="mt-4 inline-block bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600">Chơi</a>
+      </div>
+      <!-- Thẻ Puzzle -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
+        <img src="../asset/img/puzzle-icon.png" alt="Puzzle" class="mx-auto mb-4 h-16 w-16">
+        <h2 class="text-2xl font-semibold text-blue-700">Puzzle</h2>
+        <p class="text-gray-600 mt-2">Giải các câu đố bằng tay</p>
+        <a href="/html/puzzle.html" class="mt-4 inline-block bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600">Chơi</a>
+      </div>
+      <!-- Thẻ Exercise -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
+        <img src="../asset/img/exercise-icon.png" alt="Exercise" class="mx-auto mb-4 h-16 w-16">
+        <h2 class="text-2xl font-semibold text-blue-700">Exercise</h2>
+        <p class="text-gray-600 mt-2">Bài tập tăng cường sức mạnh tay</p>
+        <a href="/html/exercise.html" class="mt-4 inline-block bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600">Chơi</a>
+      </div>
+      <!-- Thẻ Plane -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
+        <img src="../asset/img/plane-icon.png" alt="Plane" class="mx-auto mb-4 h-16 w-16">
+        <h2 class="text-2xl font-semibold text-blue-700">Plane</h2>
+        <p class="text-gray-600 mt-2">Điều khiển máy bay bằng cử chỉ</p>
+        <a href="/html/plane.html" class="mt-4 inline-block bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600">Chơi</a>
+      </div>
+      <!-- Thẻ Archery -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
+        <img src="../asset/img/archery-icon.png" alt="Archery" class="mx-auto mb-4 h-16 w-16">
+        <h2 class="text-2xl font-semibold text-blue-700">Archery</h2>
+        <p class="text-gray-600 mt-2">Bắn cung bằng chuyển động tay</p>
+        <a href="/html/arrow.html" class="mt-4 inline-block bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600">Chơi</a>
+      </div>
+    </div>
   </div>
 
-  <div id="cursor"></div>
-  <div id="info">Đang chờ tay...</div>
+<!-- Thanh trạng thái -->
+<div class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 text-center flex flex-col items-center">
+  <div class="w-10 h-10 border-4 border-t-blue-500 border-gray-200 rounded-full animate-spin"></div>
+  <p id="info" class="mt-2">đang chờ tay</p>
+</div>
+
+  <!-- Con trỏ (được điều khiển bởi JavaScript) -->
+  <div id="cursor" class="hidden"></div>
 
   <script type="module" src="app.js"></script>
 </body>

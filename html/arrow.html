@@ -14,10 +14,13 @@
 
   <!-- HUD -->
   <div id="hud" class="absolute right-4 top-3 text-white font-semibold text-right leading-snug">
-    <div id="msg">Open palm ⇒ Closed fist ⇒ Open palm để bắn</div>
+    <div id="msg">Move mouse to aim, click to pull, release to shoot</div>
     <div id="score">Score 0</div>
-    <div id="arrowBox" class="absolute bottom-4 right-4 bg-[#222222] py-1.5 px-4 rounded-[18px] font-bold text-[#ff7070] border-3 border-black">▶ 5</div>
+    <button id="toggleInput" class="mt-2 bg-[#222222] py-1.5 px-4 rounded-[18px] font-bold text-[#ff7070] border-3 border-black">Switch to Hand Gesture</button>
   </div>
+
+  <!-- Arrow count -->
+  <div id="arrowBox" class="mt-4 mx-auto w-fit bg-[#222222] py-1.5 px-4 rounded-[18px] font-bold text-[#ff7070] border-3 border-black">▶ 5</div>
 
   <script type="module" src="../gameLogic/arrow.js"></script>
 </body>
