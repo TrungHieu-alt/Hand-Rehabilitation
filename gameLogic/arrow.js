@@ -33,7 +33,7 @@ let arrow = null;          // Mũi tên đang bay: {x, y, vx, vy}
 let arrowsLeft = MAX_ARROW; // Số mũi tên còn lại
 let score = 0;             // Điểm số
 let targets = JSON.parse(JSON.stringify(BASE_TARGETS)); // Danh sách bia
-let useMouseInput = true;  // true: dùng chuột, false: dùng cử chỉ tay
+let useMouseInput = false;  // true: dùng chuột, false: dùng cử chỉ tay
 
 /* ===== hình ảnh ===== */
 const bowImage = new Image();
@@ -69,6 +69,10 @@ function updateInstructions(){
   }
 }
 
+// Biến theo dõi Thumb_Down
+let thumbDownStart = 0;
+const THUMB_DOWN_TIMEOUT = 2000; // 2 giây
+
 /* Chuyển đổi chế độ đầu vào */
 toggleInputBtn.addEventListener('click', () => {
   useMouseInput = !useMouseInput;
@@ -81,6 +85,16 @@ new WebSocket(WS_URL).onmessage = e=>{
   if (useMouseInput) return; // Bỏ qua nếu đang dùng chuột
 
   const pkt = JSON.parse(e.data);
+
+  if (pkt.gesture === "Thumb_Down") {
+    if (thumbDownStart === 0) {
+      thumbDownStart = Date.now();
+    } else if (Date.now() - thumbDownStart >= THUMB_DOWN_TIMEOUT) {
+      window.location.href = "../index.html";
+    }
+  } else {
+    thumbDownStart = 0;
+  }
   const pc = palmCenter(pkt.landmarks);
   if(!pc) return;
 
