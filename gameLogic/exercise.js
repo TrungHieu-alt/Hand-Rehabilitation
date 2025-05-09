@@ -59,7 +59,7 @@ Conf    : ${p.gestureConfidence.toFixed(2)}`;
 
 /* ---------- logic bài tập ---------- */
 let phase="A", fist=0, next=1, prev="", touchFinger=0, touchStart=0;
-const TOUCH_THRESHOLD = 0.05; // ngưỡng khoảng cách để coi là chạm
+const TOUCH_THRESHOLD = 0.34; // ngưỡng khoảng cách để coi là chạm
 const HOLD_TIME = 2000; // 2 giây
 
 // Biến theo dõi Thumb_Down
