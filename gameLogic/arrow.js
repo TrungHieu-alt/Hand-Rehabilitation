@@ -7,14 +7,20 @@ const scoreEl = document.getElementById("score");
 const livesEl = document.getElementById("lives");
 const toggleInputBtn = document.getElementById("toggleInput");
 
-const DPR = window.devicePixelRatio || 1;
+// const DPR = window.devicePixelRatio || 1;
 
-function fit(){
-  cvs.width = window.innerWidth * DPR;
-  cvs.height = window.innerHeight * DPR;
-  cvs.style.width = window.innerWidth + 'px';
-  cvs.style.height = window.innerHeight + 'px';
-  ctx.scale(DPR, DPR);
+function fit () {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  // canvas kích thước bằng đúng viewport (CSS‑px)
+  cvs.width  = w;
+  cvs.height = h;
+  cvs.style.width  = w + "px";
+  cvs.style.height = h + "px";
+
+  // đảm bảo context về mặc định mỗi lần resize
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 window.addEventListener('resize', fit);
@@ -24,8 +30,11 @@ fit();
 const ARROW_LEN = 150;          // Arrow length: 150 pixels
 const ARROW_VX = 1500;          // Horizontal arrow speed: 1500 pixels/second
 const ARROW_VY = 0;            // Initial vertical speed: 0 (shoots straight)
-const GRAV = 500;              // Gravity acceleration: 500 pixels/second²
-const TARGET_R = 28;           // Target radius: 28 pixels
+const GRAV = 400;              // Gravity acceleration: 400 pixels/second²
+const TARGET_R        = 45;   // bán kính target
+const TARGET_SPACING  = 10;   // khoảng cách tối thiểu giữa các target
+const HUD_W           = 260;  // bề rộng vùng chữ/điểm/Lives (phải)
+const HUD_H           = 140;  // chiều cao vùng chữ (trên)
 const TARGET_BOW_HEIGHT = 152; // Bow image height: 152 pixels
 const X_STRING_NORMAL = 60;    // String position when not pulled
 const X_STRING_PULLED = 50;    // String position when pulled
@@ -60,14 +69,21 @@ const palmCenter = lm =>
 function spawnTargets() {
   const numTargets = 5; // Always spawn 5 targets
   targets = [];
+
+    // Khu vực spawn target 
+  const minX = cvs.width / 2 + TARGET_R;
+  const maxX = cvs.width - HUD_W - TARGET_R;
+  const minY = HUD_H + TARGET_R;
+  const maxY = cvs.height - TARGET_R
+
   for (let i = 0; i < numTargets; i++) {
     let x, y;
     let attempts = 0;
     do {
       // Ensure the target stays within the right half of the screen and doesn't go off-screen
-      x = Math.random() * (cvs.width / 2 - 2 * TARGET_R) + cvs.width / 2 + TARGET_R;
+      x = Math.random() * (maxX - minX) + minX;
       // Ensure the target stays fully inside vertically
-      y = Math.random() * (cvs.height - 2 * TARGET_R) + TARGET_R;
+      y = Math.random() * (maxY - minY) + minY;
       attempts++;
     } while (
       attempts < 100 &&

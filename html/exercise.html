@@ -1,24 +1,52 @@
 <!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="utf-8">
-  <title>Hand Exercise</title>
-  <link rel="stylesheet" href="../styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/three@0.153/build/three.min.js"></script>
-</head>
-<body>
-  <a id="back" href="../index.html">← Back</a>
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hand Exercise</title>
+    <!-- Google Font & Tailwind CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js (để JS render landmark) -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.153/build/three.min.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+  </head>
+  <!-- Gradient background + overflow hidden để blob ko hiện thanh scroll -->
+  <body class="relative min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white font-[Poppins] flex flex-col items-center pt-6 overflow-hidden select-none">
+    <!-- Decorative blurred blobs -->
+    <div class="pointer-events-none absolute -top-24 -left-24 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl"></div>
+    <div class="pointer-events-none absolute top-1/2 -right-24 w-[28rem] h-[28rem] bg-emerald-400/10 rounded-full blur-3xl"></div>
 
-  <div id="exercise-box">
-    <h2>Fist × 5 → Count 1-5 → Touch Fingers</h2>
-    <div id="phase">Pha A – Nắm tay: 0/5</div>
-  </div>
+    <!-- Back button -->
+    <button id="back" class="relative z-10 self-start ml-4 mb-6 rounded-full bg-teal-500/90 px-4 py-2 text-sm font-semibold shadow hover:bg-teal-600 transition-colors">
+      ← Back
+    </button>
 
-  <canvas id="hand-canvas" class="hand"></canvas>
-  <div id="info">Đang chờ tay...</div>
+    <!-- Headline & phase indicator -->
+    <h1 class="relative z-10 text-3xl md:text-4xl font-bold tracking-wide text-center bg-gradient-to-r from-teal-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
+      Fist × 5 → Count&nbsp;1‑5 → Touch&nbsp;Fingers
+    </h1>
+    <div id="phase" class="relative z-10 mt-3 text-lg font-semibold text-gray-200">Pha A – Nắm tay: 0/5</div>
 
-  <script type="module" src="../gameLogic/exercise.js"></script>
-  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93c68f6f2c04ad80',t:'MTc0NjY4MjE3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-</body>
+    <!-- Canvas wrapper with glow + animated pulse ring -->
+    <div class="relative z-10 mt-12 flex justify-center items-center">
+      <!-- animated ring -->
+      <div class="absolute inset-0 rounded-[2rem] ring-4 ring-teal-500/40 animate-pulse"></div>
+      <!-- subtle glow (blurred) -->
+      <div class="absolute inset-0 rounded-[2rem] bg-teal-400/10 blur-2xl"></div>
+      <canvas id="hand-canvas" width="380" height="380" class="relative z-10 w-[380px] h-[380px] rounded-[2rem] shadow-2xl bg-transparent"></canvas>
+    </div>
+
+    <!-- Progress bar (visual cue) -->
+    <div class="relative z-10 mt-8 w-11/12 max-w-xl">
+      <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div id="progress" class="h-full w-0 bg-gradient-to-r from-teal-400 to-emerald-400 transition-[width] duration-300"></div>
+      </div>
+    </div>
+
+    <!-- Debug / info card -->
+    <pre id="info" class="relative z-10 mt-6 bg-gray-900/50 backdrop-blur-md rounded-lg p-4 text-xs whitespace-pre-line shadow-inner max-w-md w-11/12"></pre>
+
+    <!-- Keep original JS path to avoid breaking logic -->
+    <script type="module" src="../gamelogic/exercise.js"></script>
+  </body>
 </html>
