@@ -7,20 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body class="m-0 bg-[#4a3232] font-[Poppins,sans-serif] overflow-hidden">
-  <a id="back" href="../index.html" class="absolute left-4 top-3 text-white font-semibold no-underline">← Back</a>
+  <a id="back" href="../index.html" class="absolute left-4 top-3 text-white font-semibold no-underline z-10">← Back</a>
 
   <!-- khu vực game -->
-  <canvas id="game" width="640" height="480" class="block mx-auto bg-[#332222] border-3 border-black"></canvas>
+  <canvas id="game" class="block w-3/4 h-3/4 bg-[#332222] border-3 border-black"></canvas>
 
   <!-- HUD -->
-  <div id="hud" class="absolute right-4 top-3 text-white font-semibold text-right leading-snug">
+  <div id="hud" class="absolute right-4 top-3 text-white font-semibold text-right leading-snug z-10">
     <div id="msg">Move mouse to aim, click to pull, release to shoot</div>
     <div id="score">Score 0</div>
+    <div id="lives">Lives: 2</div>
     <button id="toggleInput" class="mt-2 bg-[#222222] py-1.5 px-4 rounded-[18px] font-bold text-[#ff7070] border-3 border-black">Switch to Mouse</button>
   </div>
-
-  <!-- Arrow count -->
-  <div id="arrowBox" class="mt-4 mx-auto w-fit bg-[#222222] py-1.5 px-4 rounded-[18px] font-bold text-[#ff7070] border-3 border-black">▶ 5</div>
 
   <script type="module" src="../gameLogic/arrow.js"></script>
 </body>

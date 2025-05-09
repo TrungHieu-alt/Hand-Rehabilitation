@@ -1,4 +1,4 @@
-/*  Grasp‑n‑Drop – v0.6  (analysis‑driven fix with enhanced graphics)
+/* Grasp‑n‑Drop – v0.6  (analysis‑driven fix with enhanced graphics)
 
    Problem observed: pointer jumped too fast → loss of precision.
    Root causes:
@@ -26,6 +26,10 @@
   const cvs      = document.getElementById("game");
   const ctx      = cvs.getContext("2d");
   const statusEl = document.getElementById("status");
+  const backButton = document.getElementById("backButton");
+  backButton.addEventListener("click", () => {
+    window.location.href = "../index.html";
+  });
   const DPR      = window.devicePixelRatio || 1;
 
   const SPEED  = 1.0;   // gain after mapping
@@ -36,13 +40,11 @@
   const trashPaperImg = new Image();
   trashPaperImg.src = '../asset/img/trash_paper.png';
 
-
   const trashBinImg = new Image();
   trashBinImg.src = '../asset/img/trash_can.png';
 
-
   const backgroundImg = new Image();
-  backgroundImg.src = '../asset/img/GrapsBackground.jpg';
+  backgroundImg.src = '../asset/img/GrapsBackground.png';
 
   let imagesLoaded = 0;
   const totalImages = 3;

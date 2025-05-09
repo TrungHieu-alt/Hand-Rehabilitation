@@ -7,9 +7,25 @@
     .status-text-shadow {
       text-shadow: 0 0 4px #000;
     }
+    .back-button {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      color: white;
+      font-weight: 600;
+      background-color: #3498db;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .back-button:hover {
+      background-color: #2980b9;
+    }
   </style>
 </head>
 <body class="m-0 h-full overflow-hidden bg-black">
+  <button id="backButton" class="back-button">← Back</button>
   <canvas id="game" class="block w-full h-full"></canvas>
   <div id="status" class="fixed top-2.5 left-2.5 font-bold text-xl leading-none font-sans text-white status-text-shadow pointer-events-none select-none">OPEN</div>
 
