@@ -3,27 +3,42 @@
 <head>
   <meta charset="utf-8" />
   <title>Puzzle Drag & Drop</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
-  <style>
-    body { margin: 0; background: #000; font-family: Poppins, sans-serif; }
-    #back { position: absolute; left: 12px; top: 10px; color: #fff; font-weight: 600; text-decoration: none; }
-    #game-area { display: flex; justify-content: center; align-items: center; margin: 20px; }
-    #game { border: 2px solid #555; background: #000; }
-    #reference { width: 200px; height: 150px; margin-left: 20px; }
-    #scoreboard { position: absolute; top: 12px; right: 12px; color: #fff; font-weight: 600; text-align: right; line-height: 1.4; z-index: 10; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <a id="back" href="../index.html">← Back</a>
-  <div id="game-area">
-    <canvas id="game" width="640" height="480"></canvas>
-    <img id="reference" src="../img/img1.jpg">
-  </div>
-  <div id="scoreboard">
+<body class="relative font-[Poppins] overflow-hidden">
+
+  <!-- Nền mờ từ ảnh -->
+  <div class="fixed inset-0 bg-cover bg-center blur-md brightness-50 z-[-1]" style="background-image: url('../img/img1.jpg');"></div>
+
+  <!-- Nút quay lại -->
+  <a href="../index.html" class="absolute top-3 left-3 text-white font-semibold hover:underline z-10">← Back</a>
+
+  <!-- Scoreboard -->
+  <div class="absolute top-3 right-3 text-white text-right font-semibold leading-snug z-10">
     <div id="time">Time 0s</div>
     <div id="best">Best Time 0s</div>
   </div>
+
+  <!-- Khu vực game -->
+  <!-- Khu vực game -->
+<div class="flex justify-center items-center mt-16 px-4 z-0">
+  <canvas 
+    id="game" 
+    width="640" 
+    height="480" 
+    class="border-2 border-white/30 bg-white/10 backdrop-blur-sm rounded-xl shadow-lg">
+  </canvas>
+  <img 
+    id="reference" 
+    src="../img/img1.jpg" 
+    class="w-52 h-36 ml-5 rounded-lg shadow-lg" 
+    alt="Ảnh mẫu">
+</div>
+
+
+  <!-- Game logic -->
   <script type="module" src="../gameLogic/puzzle.js"></script>
-  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93c639ae0f3912dd',t:'MTc0NjY3ODY2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

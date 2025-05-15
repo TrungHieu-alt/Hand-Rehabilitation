@@ -44,7 +44,7 @@
   trashBinImg.src = '../asset/img/trash_can.png';
 
   const backgroundImg = new Image();
-  backgroundImg.src = '../asset/img/GrapsBackground.png';
+  backgroundImg.src = '../asset/img/GrapsBackground.jpg';
 
   let imagesLoaded = 0;
   const totalImages = 3;
@@ -62,6 +62,7 @@
   }
 
   /* ---------- fit canvas ---------- */
+  let stopPositions = []; // Khởi tạo mảng rỗng
   function fit(){
     cvs.width  = innerWidth  * DPR;
     cvs.height = innerHeight * DPR;
@@ -69,6 +70,14 @@
     cvs.style.height = innerHeight + 'px';
     ctx.reset?.();
     ctx.scale(DPR, DPR);
+    // Cập nhật stopPositions khi thay đổi kích thước
+    stopPositions = [
+      563 / innerHeight,
+      550 / innerHeight,
+      450 / innerHeight,
+      535 / innerHeight,
+      500 / innerHeight
+    ];
   }
   addEventListener('resize', fit, {passive:true});
   fit();
@@ -83,7 +92,6 @@
 
   /* ---------- game state ---------- */
   const fixedZone = { x: 0.75, y: 0.5, w: 0.20, h: 0.10 }; // Fixed bin position (bottom-right, 2:1)
-  const stopPositions = [563 / innerHeight, 688 / innerHeight]; // Normalized y positions (lower range)
   let level = 0;
   const items = [];
   const pointer = {x:innerWidth/2,y:innerHeight/2,grab:false};
@@ -207,10 +215,11 @@
       ctx.drawImage(trashPaperImg, o.x - o.r, o.y - o.r, o.r * 2, o.r * 2);
     }
 
-    // Draw pointer
-    ctx.fillStyle = pointer.grab ? '#f55' : '#09f';
-    ctx.beginPath();
-    ctx.arc(pointer.x, pointer.y, 10, 0, Math.PI * 2);
-    ctx.fill();
+    // Draw pointer as hand emoji
+    ctx.font = '30px Arial'; // Adjust size as needed
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const emoji = pointer.grab ? '✊' : '🖐️';
+    ctx.fillText(emoji, pointer.x, pointer.y);
   }
 })();

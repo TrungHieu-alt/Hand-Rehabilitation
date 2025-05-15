@@ -18,7 +18,7 @@ const pieces = [];
 let selectedPiece = null, gameOver = false, startTime = null, elapsedTime = 0;
 let handX = cvs.width / 2, handY = cvs.height / 2;
 
-// Load the large image
+// Load the large image for puzzle pieces
 const largeImage = new Image();
 largeImage.src = "../img/img1.jpg"; // Replace with your image path
 largeImage.onload = () => {
@@ -35,10 +35,9 @@ let bestTime = loadBest(); bestEl.textContent = `Best Time ${bestTime === Infini
 const palmCenter = lm => lm && lm.length >= 18
   ? { x: (lm[0].x + lm[5].x + lm[17].x) / 3, y: (lm[0].y + lm[5].y + lm[17].y) / 3 } : null;
 
+let thumbDownStart = 0;
+const THUMB_DOWN_TIMEOUT = 2000;
 
-  let thumbDownStart = 0;
-  const THUMB_DOWN_TIMEOUT = 2000;
-  
 /* ---------- WebSocket ---------- */
 new WebSocket(WS_URL).onmessage = e => {
   const d = JSON.parse(e.data);
@@ -52,7 +51,6 @@ new WebSocket(WS_URL).onmessage = e => {
   } else {
     thumbDownStart = 0;
   }
-  
 
   /* 1. When Game Over & see Closed_Fist → reset */
   if (gameOver && d.gesture === "Closed_Fist") {
@@ -143,7 +141,14 @@ function update(dt) {
 
 /* ---------- render & DOM update ---------- */
 function draw() {
-  ctx.clearRect(0, 0, cvs.width, cvs.height);
+ // Create a gradient background (lavender sunset style)
+const gradient = ctx.createLinearGradient(0, 0, 0, cvs.height);
+gradient.addColorStop(0, '#a18cd1'); // lavender top
+gradient.addColorStop(1, '#fbc2eb'); // soft pink bottom
+ctx.fillStyle = gradient;
+ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+
   /* grid */
   ctx.strokeStyle = "#555"; ctx.lineWidth = 2;
   for (let r = 0; r < GRID_ROWS; r++) {
@@ -160,8 +165,11 @@ function draw() {
     }
   });
   /* hand cursor */
-  const cursorColor = selectedPiece ? '#f55' : '#09f'; // Red when grabbing, blue when not
-  ctx.beginPath(); ctx.arc(handX, handY, 10, 0, Math.PI * 2); ctx.fillStyle = cursorColor; ctx.fill();
+  ctx.font = '30px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const emoji = selectedPiece ? '✊' : '🖐️';
+  ctx.fillText(emoji, handX, handY);
   /* update scoreboard */
   timeEl.textContent = `Time ${Math.floor(elapsedTime)}s`;
   bestEl.textContent = `Best Time ${bestTime === Infinity ? "0s" : Math.floor(bestTime) + "s"}`;
